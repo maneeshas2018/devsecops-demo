@@ -21,16 +21,15 @@ pipeline {
       }
     }
 	
-    stage ('Source Composition Analysis') {
-      steps {
-         sh 'rm owasp* || true'
-         sh 'wget "https://raw.githubusercontent.com/maneeshas2018/devsecops-demo/master/owasp-dependency-check.sh" '
-         sh 'chmod +x owasp-dependency-check.sh'
-         sh 'bash owasp-dependency-check.sh'
-         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
-        
-      }
-    }
+    stage ('OWASP Dependency-Check Vulnerabilities') {  
+    steps {  
+     withMaven(maven : 'mvn-3.6.3') {  
+      sh 'mvn dependency-check:check'  
+     }  
+   
+     dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'  
+    }  
+   }  
 	
     stage ('Build') {
       steps {
