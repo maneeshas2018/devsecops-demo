@@ -2,6 +2,7 @@ pipeline {
   agent any 
   tools {
     maven 'Maven'
+    dependency-check "Owasp"
   }
   stages {
     stage ('Initialize') {
@@ -23,7 +24,7 @@ pipeline {
 	
     stage ('OWASP Dependency-Check Vulnerabilities') {  
     steps {  
-      sh 'mvn dependency-check:check'    
+      sh dependencyCheck additionalArguments: '-f "HTML, XML,CSV" -s .'   
     }  
    }  
 	
