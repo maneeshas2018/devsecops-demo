@@ -20,9 +20,8 @@ pipeline {
         sh 'cat trufflehog'
       }
     }
-	
-    stages {
-        stage ('OWASP Dependency-Check Vulnerabilities') {
+    
+    stage ('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 dependencyCheck additionalArguments: ''' 
                     -o "./" 
@@ -33,7 +32,7 @@ pipeline {
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }     
-    }
+    
     stage ('Build') {
       steps {
       sh 'mvn clean package'
