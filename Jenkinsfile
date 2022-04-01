@@ -23,7 +23,7 @@ pipeline {
     
     stage ('OWASP Dependency-Check Vulnerabilities') {
             steps {
-		dependencyCheck:check
+		dependencyCheck additionalArguments: '-f "HTML, XML,CSV" -s .'
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }     
