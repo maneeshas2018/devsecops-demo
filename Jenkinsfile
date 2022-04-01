@@ -2,7 +2,6 @@ pipeline {
   agent any 
   tools {
     maven 'Maven'
-    dependency-check "Owasp"
   }
   stages {
     stage ('Initialize') {
@@ -22,11 +21,16 @@ pipeline {
       }
     }
 	
-    stage ('OWASP Dependency-Check Vulnerabilities') {  
-    steps {  
-      sh dependencyCheck additionalArguments: '-f "HTML, XML,CSV" -s .'   
-    }  
-   }  
+    stage ('Source Composition Analysis') {
+      steps {
+         sh 'rm owasp* || true'
+         sh 'wget "https://raw.githubusercontent.com/maneeshas2018/devsecops-demo/master/owasp-dependency-check.sh" '
+         sh 'chmod +x owasp-dependency-check.sh'
+         sh 'bash owasp-dependency-check.sh'
+         sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+        
+      }
+    }
 	
     stage ('Build') {
       steps {
@@ -44,7 +48,7 @@ pipeline {
 	
     stage ('DAST') {
       steps {
-        sshagent(['tomcat']) {
+        sshagent(['zap']) {
          sh 'ssh -o  StrictHostKeyChecking=no ec2-user@113.233.153.219 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://15.206.89.235:8080/webapp/" || true'
         }
       }
