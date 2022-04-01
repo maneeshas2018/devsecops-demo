@@ -23,7 +23,6 @@ pipeline {
     
     stage ('OWASP Dependency-Check Vulnerabilities') {
             steps {
-                dependencyCheck
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }     
