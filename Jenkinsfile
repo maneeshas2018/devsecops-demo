@@ -14,8 +14,8 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
       steps {
-        sh 'rm trufflehog || true'
-        sh 'docker run  mani2020/tufflehog-sec-demo:latest --json https://github.com/maneeshas2018/devsecops-demo.git > report_secretscan'
+        sh 'rm report_secretscan || true'
+        sh 'docker run  report_secretscan --json https://github.com/maneeshas2018/devsecops-demo.git > report_secretscan'
         sh 'cat report_secretscan'
       }
     } 
