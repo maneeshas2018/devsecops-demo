@@ -15,20 +15,13 @@ pipeline {
    stage ('Check-Git-Secrets') {
       steps {
         sh 'rm report_secretscan || true'
-        sh 'docker run  gitguardian/ggshield --json https://github.com/maneeshas2018/devsecops-demo.git > report_secretscan'
-        sh 'cat report_secretscan'
+        sh 'docker run  mani2020/tufflehog-sec-demo:latest --json https://github.com/maneeshas2018/devsecops-demo.git  > report_secretscan'
+	sh 'cat report_secretscan |grep -oE "\"stringsFound\"\:.[.\"]}"|sed -e "s/,\".]//" -e "s/}//"|sed "s/\"stringsFound\"\://"|grep -o "\".\""|awk -F "," '{ for(i=1;i<=NF;i++) print $i}''
+        
       }
     } 
 	  
    
-   stage ('SAST') {
-      steps {
-        withSonarQubeEnv('sonar') {
-          sh 'mvn sonar:sonar'
-          sh 'cat target/sonar/report-task.txt'
-        }
-      }
-    }
     stage ('Build') {
       steps {
       sh 'mvn clean package'
