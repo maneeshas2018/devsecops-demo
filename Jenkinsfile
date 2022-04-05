@@ -16,7 +16,7 @@ pipeline {
       steps {
         sh 'rm report_secretscan || true'
         sh 'docker run  mani2020/tufflehog-sec-demo:latest --json https://github.com/maneeshas2018/devsecops-demo.git  > report_secretscan'
-	sh 'cat report_secretscan |grep -oE "\"stringsFound\"\:.[.\"]}"|sed -e "s/,\".]//" -e "s/}//"|sed "s/\"stringsFound\"\://"|grep -o "\".\""|awk -F "," '{ for(i=1;i<=NF;i++) print $i}''
+	sh 'cat report_secretscan |grep -oE "stringsFound"'
         
       }
     } 
