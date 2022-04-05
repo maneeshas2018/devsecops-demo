@@ -15,7 +15,7 @@ pipeline {
    stage ('Check-Git-Secrets') {
       steps {
         sh 'rm report_secretscan || true'
-        sh 'docker run  report_secretscan --json https://github.com/maneeshas2018/devsecops-demo.git > report_secretscan'
+        sh 'docker run  gitguardian/ggshield --json https://github.com/maneeshas2018/devsecops-demo.git > report_secretscan'
         sh 'cat report_secretscan'
       }
     } 
