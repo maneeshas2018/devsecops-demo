@@ -16,7 +16,7 @@ pipeline {
       steps {
         sh 'rm report_secretscan || true'
         sh 'docker run  mani2020/tufflehog-sec-demo:latest --json https://github.com/maneeshas2018/devsecops-demo.git  > report_secretscan'
-	sh 'cat report_secretscan |grep -oE "stringsFound"'
+	sh 'cat report_secretscan '
         
       }
     } 
@@ -24,7 +24,7 @@ pipeline {
    stage ('Source Composition Analysis') {
       steps {
          sh 'rm owasp* || true'
-         sh 'wget "https://raw.githubusercontent.com/maneeshas2018/devsecops-demo/master/owasp-dependency-check.sh '
+         sh 'wget "https://raw.githubusercontent.com/maneeshas2018/devsecops-demo/master/owasp-dependency-check.sh" '
          sh 'chmod +x owasp-dependency-check.sh'
          sh 'bash owasp-dependency-check.sh'
          sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.json'
