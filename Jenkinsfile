@@ -14,8 +14,7 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
       steps {
-        sh 'rm report_secretscan || true'
-        sh 'docker run   dxa4481/trufflehog:latest --json https://github.com/maneeshas2018/devsecops-demo.git  > report_secretscan'
+        sh 'rm report_sec portworx/talisman:latest –scanWithHTML  https://github.com/maneeshas2018/devsecops-demo.git  
 	sh 'cat report_secretscan '
         
       }
