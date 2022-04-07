@@ -14,9 +14,12 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
       steps {
-        sh 'docker run opendevsecops/gitleaks --repo=https://github.com/maneeshas2018/devsecops-demo.git -v --report=my-report.json'
-	sh 'echo aws_secret="ABCDEF+c2L7yXeGvUyrPgYsDnWRRC1AYEXAMPLE"'
-      }
+        steps {
+        sh 'rm report_secretscan || true'
+        sh 'docker run  dxa4481/trufflehog:latest --json https://github.com/maneeshas2018/devsecops-demo.git  > report_secretscan'
+	sh 'cat report_secretscan '
+        
+           }
     } 
 	  
    stage ('Source Composition Analysis') {
