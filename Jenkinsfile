@@ -14,7 +14,7 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
       steps {
-        sh 'docker run portworx/talisman:latest –scanWithHTML  https://github.com/maneeshas2018/devsecops-demo.git' 
+        sh 'docker run opendevsecops/gitleaks --repo=https://github.com/maneeshas2018/devsecops-demo.git --report=gitleaks_results.csv' 
         
       }
     } 
