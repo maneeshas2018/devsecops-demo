@@ -14,7 +14,7 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
       steps {
-        sh 'rm report_sec portworx/talisman:latest –scanWithHTML  https://github.com/maneeshas2018/devsecops-demo.git  
+        sh 'rm report_sec portworx/talisman:latest –scanWithHTML  https://github.com/maneeshas2018/devsecops-demo.git'  
 	sh 'cat report_secretscan '
         
       }
