@@ -15,7 +15,7 @@ pipeline {
    stage ('Check-Git-Secrets') {
       steps {
 	sh 'gitleaks_results.csv || true'
-        sh 'docker run opendevsecops/gitleaks --repo=https://github.com/maneeshas2018/devsecops-demo.git --report=gitleaks_results.csv' 
+        sh 'docker run opendevsecops/gitleaks --repo=https://github.com/maneeshas2018/devsecops-demo.git -v --report=my-report.json'
         sh 'cat gitleaks_results.csv'
       }
     } 
