@@ -15,7 +15,7 @@ pipeline {
    stage ('Check-Git-Secrets') {
         steps {
         sh 'docker run  mani2020/tufflehog-sec-demo:latest --json https://github.com/maneeshas2018/devsecops-demo.git  > report_secretscan'
-	sh 'cat report_secretscan | grep "ABCDEF+c2L7yXeGvUyrPgYsDnWRRC1AYEXAMPLE"'
+	sh 'cat report_secretscan '
 	}
         
     } 
