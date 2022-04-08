@@ -14,8 +14,7 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
         steps {
-        sh 'docker run  -v "$PWD:/pwd" trufflesecurity/trufflehog:latest  --json github --repo=https://github.com/maneeshas2018/devsecops-demo.git > secretscan.json'
-	sh 'cat secretscan.json'
+        sh 'docker run --rm -it -v "/tmp:/tmp" -v "$PWD:/pwd" trufflesecurity/trufflehog git  https://github.com/maneeshas2018/devsecops-demo.git '
 	}
         
     } 
