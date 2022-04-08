@@ -14,7 +14,8 @@ pipeline {
     }
    stage ('Check-Git-Secrets') {
         steps {
-        sh 'docker run opendevsecops/gitleaks --repo=https://github.com/maneeshas2018/devsecops-demo.git -v --report=my-report.json '
+        sh 'trufflehog --json https://github.com/maneeshas2018/devsecops-demo.git >secretscsn.json'
+	cat 'secretscsn.json'
 	}
         
     } 
