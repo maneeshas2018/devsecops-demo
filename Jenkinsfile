@@ -30,14 +30,7 @@ pipeline {
         
       }
     } 
-   stage ('SAST') {
-      steps {
-        withSonarQubeEnv('sonar') {
-          sh 'mvn sonar:sonar'
-          sh 'cat target/sonar/report-task.txt'
-        }
-      }
-    }
+   
     stage ('Build') {
       steps {
       sh 'mvn clean package'
@@ -47,9 +40,16 @@ pipeline {
     stage ('Deploy') {
       steps {
       sshagent(['tomcat']) {
-            sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@3.111.52.70:/home/ec2-user/prod/apache-tomcat-8.5.76/webapps'
+            sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@13.232.186.196:/home/ec2-user/prod/apache-tomcat-8.5.76/webapps'
             }      
          }       
+    }
+    stage ('DAST') {
+      steps {
+        sshagent(['zap']) {
+         sh 'ssh -o  StrictHostKeyChecking=no ec2-user@13.232.5.124 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://13.232.186.196:8080/webapp/" || true'
+        }
+      }
     }
 	
   }
